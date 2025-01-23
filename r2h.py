@@ -178,7 +178,7 @@ def on_convert_button_click(event=None):
 
 # gui, uncomment for dark theme
 root = tk.Tk()
-root.title("romanji to hiragana converter")
+root.title("romaji to hiragana converter")
 # style = AwthemesStyle(root)
 # themes = style.theme_names()
 # style.theme_use("awdark")
