@@ -1,7 +1,7 @@
 import re
 import tkinter as tk
 from tkinter import messagebox
-from awthemes import AwthemesStyle
+# from awthemes import AwthemesStyle
 
 hiragana = {
     'a': 'あ',
@@ -29,7 +29,7 @@ hiragana = {
     'zu': 'ず',
     'ze': 'ぜ',
     'zo': 'ぞ',
-    'chi': 'た',
+    'chi': 'ち',
     'ta': 'た',
     'ti': 'ち',
     'tu': 'つ',
@@ -78,6 +78,91 @@ hiragana = {
     'wa': 'わ',
     'wo': 'を',
     'n': 'ん',
+    'tt' : 'っ',
+    'vu' : 'ゔ',
+    'ji' : 'じ',
+    'shi': 'し',
+    'sakuon': 'っ'
+}
+
+katakana = {
+    'a': 'ア',
+    'i': 'イ',
+    'u': 'ウ',
+    'e': 'エ',
+    'o': 'オ',
+    'ka': 'カ',
+    'ki': 'キ',
+    'ku': 'ク',
+    'ke': 'ケ',
+    'ko': 'コ',
+    'ga': 'ガ',
+    'gi': 'ギ',
+    'gu': 'グ',
+    'ge': 'ゲ',
+    'go': 'ゴ',
+    'sa': 'サ',
+    'si': 'シ',
+    'su': 'ス',
+    'se': 'セ',
+    'so': 'ソ',
+    'za': 'ザ',
+    'zi': 'ジ',
+    'zu': 'ズ',
+    'ze': 'ゼ',
+    'zo': 'ゾ',
+    'chi': 'チ',
+    'ta': 'タ',
+    'ti': 'チ',
+    'tu': 'ツ',
+    'tsu': 'ツ',
+    'te': 'テ',
+    'to': 'ト',
+    'da': 'ダ',
+    'di': 'ヂ',
+    'du': 'ヅ',
+    'de': 'デ',
+    'do': 'ド',
+    'na': 'ナ',
+    'ni': 'ニ',
+    'nu': 'ヌ',
+    'ne': 'ネ',
+    'no': 'ノ',
+    'ha': 'ハ',
+    'hi': 'ヒ',
+    'hu': 'フ',
+    'fu': 'フ',
+    'he': 'ヘ',
+    'ho': 'ホ',
+    'ba': 'バ',
+    'bi': 'ビ',
+    'bu': 'ブ',
+    'be': 'ベ',
+    'bo': 'ボ',
+    'pa': 'パ',
+    'pi': 'ピ',
+    'pu': 'プ',
+    'pe': 'ペ',
+    'po': 'ポ',
+    'ma': 'マ',
+    'mi': 'ミ',
+    'mu': 'ム',
+    'me': 'メ',
+    'mo': 'モ',
+    'ya': 'ヤ',
+    'yu': 'ユ',
+    'yo': 'ヨ',
+    'ra': 'ラ',
+    'ri': 'リ',
+    'ru': 'ル',
+    're': 'レ',
+    'ro': 'ロ',
+    'wa': 'ワ',
+    'wo': 'ヲ',
+    'n': 'ン'
+}
+
+punctuation = {
     '.':'。',
     '!': '！',
     '?': '？',
@@ -97,13 +182,9 @@ hiragana = {
     '%': '％',
     '(': '（',
     ')': '）',
-    'tt' : 'っ',
-    'vu' : 'ゔ',
-    'ji' : 'じ',
-    'shi': 'し'
 }
 
-compounds = {
+hira_compounds = {
     'kya': 'きゃ',
     'kyu': 'きゅ',
     'kyo': 'きょ',
@@ -142,29 +223,79 @@ compounds = {
     'ryo': 'りょ'
 }
 
+kata_compounds = {
+    'kya': 'キャ',
+    'kyu': 'キュ',
+    'kyo': 'キョ',
+    'gya': 'ギャ',
+    'gyu': 'ギュ',
+    'gyo': 'ギョ',
+    'sha': 'シャ',
+    'shu': 'シュ',
+    'sho': 'ショ',
+    'ja': 'ジャ',
+    'ju': 'ジュ',
+    'jo': 'ジョ',
+    'cha': 'チャ',
+    'chu': 'チュ',
+    'cho': 'チョ',
+    'jya': 'ヂャ',
+    'jyu': 'ヂュ',
+    'jyo': 'ヂョ',
+    'nya': 'ニャ',
+    'nyu': 'ニュ',
+    'nyo': 'ニョ',
+    'hya': 'ヒャ',
+    'hyu': 'ヒュ',
+    'hyo': 'ヒョ',
+    'bya': 'ビャ',
+    'byu': 'ビュ',
+    'byo': 'ビョ',
+    'pya': 'ピャ',
+    'pyu': 'ピュ',
+    'pyo': 'ピョ',
+    'mya': 'ミャ',
+    'myu': 'ミュ',
+    'myo': 'ミョ',
+    'rya': 'リャ',
+    'ryu': 'リュ',
+    'ryo': 'リョ'
+}
+
+def convert_word(word, is_katakana=False):
+    if is_katakana:
+        return kata_compounds.get(word, katakana.get(word, ""))
+    else:
+        return hira_compounds.get(word, hiragana.get(word, ""))
+
 def r2h(input_string):
-    input_string = input_string.lower().replace(" ", "")
-
-    for compound, hiragana_char in compounds.items():
-        input_string = input_string.replace(compound, compound[0] + compound[1:].lower())
-
-    word_list = re.findall(r'(ky[auo]|gy[auo]|sh[auo]|j[auo]|ch[iauo]|jy[auo]|ny[auo]|hy[auo]|by[auo]|py[auo]|my[auo]|ry[auo]|shi|tsu|tu|[kgztdnhbpmyrwvsj][aiueot]|[aiueon~.!?,-~0123456789)(]|[kgyshjcdtbnmry][yaoue]{2,3})', input_string)
-    
-    max_len = sum(len(word) for word in word_list)
-    if max_len != len(input_string):
-        messagebox.showerror("error", "invalid input string!")
-        return ""
+    input_string = re.sub(r'\swa\s', 'ha', input_string)
 
     output_string = ""
-    
-    for word in word_list:
-        if word == 'tsu' or word == 'tu':
-            output_string += hiragana['tsu']
-        elif word in compounds:
-            output_string += compounds[word]
+    is_katakana = False
+
+    word_idx = 0
+    while word_idx < len(input_string):
+        char = input_string[word_idx]
+
+        if char == "*":
+            is_katakana = not is_katakana
+            word_idx += 1
+            continue
+
+        if char in punctuation:
+            output_string += punctuation[char]
+            word_idx += 1
         else:
-            output_string += hiragana.get(word, "")
-    
+            match = re.match(r'(ky[auo]|gy[auo]|sh[auo]|j[auo]|ch[iauo]|jy[auo]|ny[auo]|hy[auo]|by[auo]|py[auo]|my[auo]|ry[auo]|shi|tsu|tu|sakuon|[kgztdnhbpmyrwvsj][aiueot]|[aiueon~.!?,-~0123456789)(]|[kgyshjcdtbnmry][yaoue]{2,3})', input_string[word_idx:])
+
+            if match:
+                word = match.group(0)
+                output_string += convert_word(word, is_katakana)
+                word_idx += len(word)
+            else:
+                word_idx += 1
+
     return output_string
 
 def on_convert_button_click(event=None):
@@ -176,7 +307,7 @@ def on_convert_button_click(event=None):
     else:
         messagebox.showwarning("error", "no text")
 
-# gui, uncomment for dark theme
+# gui, uncomment everything for dark theme
 root = tk.Tk()
 root.title("romaji to hiragana converter")
 # style = AwthemesStyle(root)
