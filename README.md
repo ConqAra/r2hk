@@ -4,3 +4,5 @@ romaji to hiragana & katakana converter. first python script i ever made, it eve
 romaji is converted to hiragana by default. for converting to katakana, put asterisks around the text you want to be katakana. (ex: *basubalu* desu! -> バスバウです！)
 
 uncomment everything in the script for dark theme!
+
+r2hk.py is what you should use. r2h and r2h_old is archived, you shouldn't use them!
