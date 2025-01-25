@@ -5,4 +5,4 @@ romaji is converted to hiragana by default. for converting to katakana, put aste
 
 uncomment everything in the script for dark theme!
 
-r2hk.py is what you should use. r2h and r2h_old is archived, you shouldn't use them!
+r2hk.py is what you should use. r2h.py and r2h_old.py is archived, you shouldn't use them!
