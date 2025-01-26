@@ -1,7 +1,8 @@
 import re
 import tkinter as tk
 from tkinter import messagebox
-# from awthemes import AwthemesStyle
+
+# uncomment everything (except for this) for a dark theme version of the gui!
 
 hiragana = {
     'a': 'あ',
@@ -307,9 +308,9 @@ def on_convert_button_click(event=None):
     else:
         messagebox.showwarning("error", "no text")
 
-# gui, uncomment everything for dark theme
 root = tk.Tk()
 root.title("romaji to hiragana converter")
+# from awthemes import AwthemesStyle
 # style = AwthemesStyle(root)
 # themes = style.theme_names()
 # style.theme_use("awdark")
